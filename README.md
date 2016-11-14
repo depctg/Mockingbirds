@@ -1,5 +1,5 @@
 # Mockingbirds
-Usetools for Computer Composition course, BUAA
+Utils for Computer Composition course, BUAA
 
 ## mockingbird.rb
 
