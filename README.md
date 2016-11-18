@@ -7,7 +7,7 @@ Utils for Computer Composition course, BUAA
 
 gem install nokogiri
 
-### Useage
+### Usage
 
 *template file must have <appear> tag*
 
@@ -17,4 +17,8 @@ gem install nokogiri
 
 ### Usage
 `python decoder.py -h`
+
+## Mars.py
+
+Output debug info in IO window.
 

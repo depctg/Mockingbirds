@@ -26,7 +26,7 @@ def _decode(ins):
     codes['imm26'] = int(ins[10:32], 2)
     codes['rd'] = _getRegName(ins[16:21])
     codes['rd_raw'] = ins[16:21]
-    codes['sh'] = ins[21:26]
+    codes['sh'] = int(ins[21:26], 2)
     codes['func'] = ins[26:32]
     return codes
 
@@ -122,10 +122,29 @@ OpLUT = {
         '000010' : parseJ('j'),
         '000011' : parseJ('jal'),
         '000100' : parseB('beq'),
+        '000101' : parseB('bne'),
+        '000110' : parseBZ('blez'),
+        '000111' : parseBZ('bgtz'),
+        '001000' : parseI('addi'),
+        '001001' : parseI('addiu'),
+        '001010' : parseI('stli'),
+        '001011' : parseI('stliu'),
+        '001100' : parseI('andi'),
         '001101' : parseI('ori'),
+        '001110' : parseI('xori'),
         '001111' : parseLUI,
+        '100000' : parseMem('lb'),
+        '100001' : parseMem('lh'),
+        '100010' : parseMem('lwl'),
         '100011' : parseMem('lw'),
-        '101011' : parseMem('sw')
+        '100100' : parseMem('lbu'),
+        '100101' : parseMem('lhu'),
+        '100110' : parseMem('lwr'),
+        '101000' : parseMem('sb'),
+        '101001' : parseMem('sh'),
+        '101010' : parseMem('swl'),
+        '101011' : parseMem('sw'),
+        '101110' : parseMem('swr')
         }
 FuncLUT = {
         '000000' : lambda codes : 'nop',
@@ -134,7 +153,8 @@ FuncLUT = {
         '100011' : parseR('subu')
         }
 RegMMLUT = {
-        '00000' : parseBZ('bltz')
+        '00000' : parseBZ('bltz'),
+        '00001' : parseBZ('bgez')
         }
 
 #  Pass0
