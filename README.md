@@ -18,7 +18,21 @@ gem install nokogiri
 ### Usage
 `python decoder.py -h`
 
-## Mars.py
+## Operation list
+
+Op:
+- j - jal - beq - bne - blez - bgtz - addi
+- addiu - stli - stliu - andi - ori - xori
+- lui - lb - lh - lwl - lw - lbu - lhu - lwr
+- sb - sh - swl - sw - swr 
+
+Func:
+- nop - jr - addu - subu
+
+Rd:
+- bltz - bgez
+
+## Mars.jar
 
 Output debug info in IO window.
 
