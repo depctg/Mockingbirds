@@ -18,7 +18,7 @@ gem install nokogiri
 ### Usage
 `python decoder.py -h`
 
-## Operation list
+### Operation list
 
 Op:
 - j - jal - beq - bne - blez - bgtz - addi
@@ -33,6 +33,7 @@ Rd:
 - bltz - bgez
 
 ## Mars.jar
-
-Output debug info in IO window.
+- BUGFIX: save and load instructions now use signedext
+- Output debug info in IO window.
+- Add support for hex machine instructions
 
