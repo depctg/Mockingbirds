@@ -33,6 +33,7 @@ Rd:
 - bltz - bgez
 
 ## Mars.jar
+- BUGFIX: branch instructions now use signedext in bin code
 - BUGFIX: save and load instructions now use signedext
 - Output debug info in IO window.
 - Add support for hex machine instructions
