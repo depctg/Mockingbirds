@@ -33,6 +33,7 @@ Rd:
 - bltz - bgez
 
 ## Mars.jar
+- Instruction Loader: Load instruction in lua script
 - OUTPUT FORMAT: change output to ise format
 - BUGFIX: branch instructions now use signedext in bin code
 - BUGFIX: save and load instructions now use signedext
