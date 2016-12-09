@@ -603,6 +603,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         RegisterFile.getValue(operands[1]) >>> operands[2]);
                   }
                }));
+          instructionList.add(
+                  new BasicInstruction("rotr $t1,$t2,10",
+                          "Rotate word right : Set $t1 to result of rotating $t2 right by number of bits specified by immediate",
+                          BasicInstructionFormat.R_FORMAT,
+                          "000000 00001 sssss fffff ttttt 000010",
+                          new SimulationCode()
+                          {
+                              public void simulate(ProgramStatement statement) throws ProcessingException
+                              {
+                                  int[] operands = statement.getOperands();
+                                  // must zero-fill, so use ">>>" instead of ">>".
+                                  RegisterFile.updateRegister(operands[0],
+                                          (RegisterFile.getValue(operands[1]) >>> operands[2])
+                                          | (RegisterFile.getValue(operands[1]) << (32-operands[2]))
+                                  );
+                              }
+                          }));
          instructionList.add(
                 new BasicInstruction("sra $t1,$t2,10",
                 "Shift right arithmetic : Set $t1 to result of sign-extended shifting $t2 right by number of bits specified by immediate",
