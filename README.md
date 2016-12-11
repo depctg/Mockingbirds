@@ -33,6 +33,8 @@ Rd:
 - bltz - bgez
 
 ## Mars.jar
+- Display Fux: do not display HI/LO value
+- Display Fix: use P6 lh/lb format
 - Instruction Loader: Load instruction in lua script
 - OUTPUT FORMAT: change output to ise format
 - BUGFIX: branch instructions now use signedext in bin code

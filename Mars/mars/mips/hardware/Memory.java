@@ -408,8 +408,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             throw new AddressErrorException("address out of range ",
                Exceptions.ADDRESS_EXCEPTION_STORE, address);
          }
+
          notifyAnyObservers(AccessNotice.WRITE, address, length, value);
-         SystemIO.printString("*" + Binary.intToHexString(address).substring(2) + " <= " + Binary.intToHexString(value).substring(2) + "\n");
+
+         // MODIFIED BY DEPCT 2016
+         // TODO: As an Observer
+         int offset = 8 - 2 * length;
+         SystemIO.printString("*" + Binary.intToHexString(address).substring(2) + " <= " + Binary.intToHexString(value).substring(2 + offset) + "\n");
+         // Modified END
          return oldValue;
       }
    	

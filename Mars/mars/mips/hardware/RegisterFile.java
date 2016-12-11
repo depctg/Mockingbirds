@@ -120,9 +120,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          }
          
          // Modified by DEPCT, 2016,11
-         // Add Output
-         String numStr = num < 10 ? " " + num : "" + num;
-         SystemIO.printString("$" + numStr + " <= " + Binary.intToHexString(val).substring(2) + "\n");
+         // Add Output, except hi, lo
+         if (num < 32) {
+             String numStr = num < 10 ? " " + num : "" + num;
+             SystemIO.printString("$" + numStr + " <= " + Binary.intToHexString(val).substring(2) + "\n");
+         }
          return old;
       }
    	
