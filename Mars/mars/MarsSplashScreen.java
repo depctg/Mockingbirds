@@ -67,20 +67,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          setBounds(x,y,width,height);
          
          // Build the splash screen
-         JLabel title = new JLabel("MARS: Mips Assembler and Runtime Simulator", JLabel.CENTER);      
-         JLabel copyrt1 = new JLabel
-               ("<html><br><br>Version "+Globals.version+" Copyright (c) "+Globals.copyrightYears+"</html>", JLabel.CENTER);
+         JLabel title = new JLabel("MARS: Mars Angeneil Restricted Subversion", JLabel.CENTER);      
+         // JLabel copyrt1 = new JLabel
+               // ("<html><br><br><br><br>Version "+Globals.version+" Copyright (c) "+Globals.copyrightYears+"</html>", JLabel.CENTER);
          JLabel copyrt2 = new JLabel
-               ("<html><br><br>"+Globals.copyrightHolders+"</html>", JLabel.CENTER);
+               ("<html><br><br><br><br><br><br><br><br><br>Version "+Globals.version+" Copyright (c) "+Globals.copyrightYears+"<br>"+Globals.copyrightHolders+"</html>", JLabel.CENTER);
          title.setFont(new Font("Sans-Serif", Font.BOLD, 16));
          title.setForeground(Color.black);
-         copyrt1.setFont(new Font("Sans-Serif", Font.BOLD, 14));
+         // copyrt1.setFont(new Font("Sans-Serif", Font.BOLD, 14));
          copyrt2.setFont(new Font("Sans-Serif", Font.BOLD, 14));
-         copyrt1.setForeground(Color.white);
-         copyrt2.setForeground(Color.white);
+         // copyrt1.setForeground(Color.gray);
+         copyrt2.setForeground(Color.gray);
 
 			content.add(title,BorderLayout.NORTH);
-			content.add(copyrt1,BorderLayout.CENTER);
+			// content.add(copyrt1,BorderLayout.SOUTH);
 			content.add(copyrt2,BorderLayout.SOUTH);
 
          // Display it
