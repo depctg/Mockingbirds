@@ -413,8 +413,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
          // MODIFIED BY DEPCT 2016
          // TODO: As an Observer
-         int offset = 8 - 2 * length;
-         SystemIO.printString("*" + Binary.intToHexString(address).substring(2) + " <= " + Binary.intToHexString(value).substring(2 + offset) + "\n");
+         // int offset = 8 - 2 * length;
+         int newWord = getWord(address & 0xFFFFFFFC);
+         SystemIO.logString("@" + Binary.intToHexString(RegisterFile.getProgramCounter() - 4).substring(6) + ":" +
+                 "*" + Binary.intToHexString(address & 0xFFFFFFFC).substring(2) + " <= " + Binary.intToHexString(newWord).substring(2) + "\n");
          // Modified END
          return oldValue;
       }

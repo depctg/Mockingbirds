@@ -137,19 +137,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          0x00002000, // heap base address
          0x00000000, // stack pointer $sp 
          0x00002ffc, // stack base address
-         0x00003fff, // highest address in user space
-         0x00004000, // lowest address in kernel space
-         0x00004000, // .ktext base address
-         0x00004180, // exception handler address
-         0x00005000, // .kdata base address
+         0x00005fff, // highest address in user space
+         0x00006000, // lowest address in kernel space
+         0x00006000, // .ktext base address
+         0x00006180, // exception handler address
+         0x00007000, // .kdata base address
          0x00007f00, // MMIO base address
          0x00007fff, // highest address in kernel (and memory)
          0x00002fff, // data segment limit address
-         0x00003ffc, // text limit address
+         0x00005ffc, // text limit address
          0x00007eff, // kernel data segment limit address
-         0x00004ffc, // kernel text limit address
+         0x00006ffc, // kernel text limit address
          0x00002000, // stack limit address
-         0x00007fff  // memory map limit address
+         0x0000ffff  // memory map limit address
          };
    
       // Compact allows 16 bit addressing, text segment starts at 0

@@ -75,9 +75,14 @@ public class Exceptions {
 	  // Set CAUSE register bits 2 thru 6 to cause value.  The "& 0xFFFFFC83" will set bits 2-6 and 8-9 to 0 while
 	  // keeping all the others.  Left-shift by 2 to put cause value into position then OR it in.  Bits 8-9 used to
 	  // identify devices for External Interrupt (8=keyboard,9=display).
-	  Coprocessor0.updateRegister(Coprocessor0.CAUSE,(Coprocessor0.getValue(Coprocessor0.CAUSE) & 0xFFFFFC83 | (cause << 2)));
+          
+          // Add delay branching exception
+          // modified by DEPCTG, 2017
+          int DelayedBranchMask = DelayedBranch.isTriggered() ? 0x80000000 : 0;
+          int deltaEPC = DelayedBranch.isTriggered() ? Instruction.INSTRUCTION_LENGTH * 2 : Instruction.INSTRUCTION_LENGTH;
+	  Coprocessor0.updateRegister(Coprocessor0.CAUSE,(Coprocessor0.getValue(Coprocessor0.CAUSE) & 0x7FFFFC83 | (cause << 2) | DelayedBranchMask));
 	  // When exception occurred, PC had already been incremented so need to subtract 4 here.
-	  Coprocessor0.updateRegister(Coprocessor0.EPC, RegisterFile.getProgramCounter()-Instruction.INSTRUCTION_LENGTH);
+	  Coprocessor0.updateRegister(Coprocessor0.EPC, RegisterFile.getProgramCounter()-deltaEPC);
 	  // Set EXL (Exception Level) bit, bit position 1, in STATUS register to 1.
 	  Coprocessor0.updateRegister(Coprocessor0.STATUS, Binary.setBit(Coprocessor0.getValue(Coprocessor0.STATUS), Coprocessor0.EXCEPTION_LEVEL));
 	}

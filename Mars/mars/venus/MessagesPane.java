@@ -45,8 +45,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   **/
 
     public class MessagesPane extends JTabbedPane{
-      JTextArea assemble, run;
-      JPanel assembleTab, runTab;
+      JTextArea assemble, run, log;
+      JPanel assembleTab, runTab, logTab;
    	// These constants are designed to keep scrolled contents of the 
    	// two message areas from becoming overwhelmingly large (which
    	// seems to slow things down as new text is appended).  Once it
@@ -65,8 +65,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          this.setMinimumSize(new Dimension(0,0));
          assemble= new JTextArea();
          run= new JTextArea();
+         log= new JTextArea();
          assemble.setEditable(false); 
          run.setEditable(false);
+         log.setEditable(false);
       	// Set both text areas to mono font.  For assemble
       	// pane, will make messages more readable.  For run
       	// pane, will allow properly aligned "text graphics"
@@ -74,6 +76,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          Font monoFont = new Font(Font.MONOSPACED, Font.PLAIN, 12);
          assemble.setFont(monoFont);
          run.setFont(monoFont);      	
+         log.setFont(monoFont);      	
       	
          JButton assembleTabClearButton = new JButton("Clear");
          assembleTabClearButton.setToolTipText("Clear the Mars Messages area");
@@ -165,10 +168,27 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          runTab.add(createBoxForButton(runTabClearButton),BorderLayout.WEST);
          runTab.add(new JScrollPane(run, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
                        ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);				
+
+         // MODIFIED BY DEPCTG, 23,8,17
+         JButton logTabClearButton = new JButton("Clear");
+         logTabClearButton.setToolTipText("Clear the Log area");
+         logTabClearButton.addActionListener(
+                new ActionListener() {
+                   public void actionPerformed(ActionEvent e){ 
+                     log.setText("");
+                  }
+               });
+         logTab = new JPanel(new BorderLayout());
+         logTab.add(createBoxForButton(logTabClearButton),BorderLayout.WEST);
+         logTab.add(new JScrollPane(log, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, 
+                       ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);				
+
          this.addTab("Mars Messages", assembleTab);
          this.addTab("Run I/O", runTab);
+         this.addTab("Display Log", logTab);
          this.setToolTipTextAt(0,"Messages produced by Run menu. Click on assemble error message to select erroneous line");
          this.setToolTipTextAt(1,"Simulated MIPS console input and output");
+         this.setToolTipTextAt(2,"Simulated MIPS console registers and memory write log");
       }
    	
       // Center given button in a box, centered vertically and 6 pixels on left and right
@@ -319,6 +339,29 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                   } 
                });
       }
+
+      // MODIFIED BY DEPCTG, ADD LOG PANE
+       public void postLogMessage(String message) {
+         final String mess = message;
+         SwingUtilities.invokeLater(
+                new Runnable() { 
+                   public void run() { 
+                     setSelectedComponent(logTab);
+                     log.append(mess);
+                  // can do some crude cutting here.  If the document gets "very large", 
+                  // let's cut off the oldest text. This will limit scrolling but the limit 
+                  // can be set reasonably high.
+                     if (log.getDocument().getLength() > MAXIMUM_SCROLLED_CHARACTERS) {
+                        try {
+                           log.getDocument().remove(0, NUMBER_OF_CHARACTERS_TO_CUT);
+                        } 
+                            catch (BadLocationException ble) { 
+                           // only if NUMBER_OF_CHARACTERS_TO_CUT > MAXIMUM_SCROLLED_CHARACTERS
+                           }
+                     }
+                  } 
+               });
+      }
    	
    	/**
    	 * Make the assembler message tab current (up front)
@@ -331,6 +374,12 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	 */   	
        public void selectRunMessageTab() {
          setSelectedComponent(runTab);
+      }
+   	/**
+   	 * Make the log message tab current (up front)
+   	 */   	
+       public void selectTabMessageTab() {
+         setSelectedComponent(logTab);
       }
    
     	/**
@@ -377,7 +426,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	  
    	  ////////////////////////////////////////////////////////////////////////////
    	  // Thread class for obtaining user input in the Run I/O window (MessagesPane)
-   	  // Written by Ricardo Fernández Pascual [rfernandez@ditec.um.es] December 2009.
+   	  // Written by Ricardo Ferndez Pascual [rfernandez@ditec.um.es] December 2009.
        class Asker implements Runnable {
          ArrayBlockingQueue<String> resultQueue = new ArrayBlockingQueue<String>(1);
          int initialPos;

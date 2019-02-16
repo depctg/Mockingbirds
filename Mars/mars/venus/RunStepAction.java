@@ -94,7 +94,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             mainUI.getMessagesPane().postRunMessage(
                              "\n-- program is finished running "+
 									  ((reason==Simulator.CLIFF_TERMINATION)? "(dropped off bottom)" : "") +" --\n\n");
-            mainUI.getMessagesPane().selectRunMessageTab();
+            // MODIFIeD BY DEPCTG, 23, 8 ,2017
+            // mainUI.getMessagesPane().selectRunMessageTab();
          }
          if (pe !=null) {
             RunGoAction.resetMaxSteps();

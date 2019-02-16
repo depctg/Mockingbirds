@@ -65,6 +65,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          return instructionList;
       
       }
+    /**
+     * Modified By DEPCTG
+     * added by lua loader
+     */
+      public void generateMatchMaps() {
+          HashMap maskMap = new HashMap();
+          ArrayList matchMaps = new ArrayList();
+
+          for(int i = 0; i < this.instructionList.size(); ++i) {
+              Object rawInstr = this.instructionList.get(i);
+              if(rawInstr instanceof BasicInstruction) {
+                  BasicInstruction basic = (BasicInstruction)rawInstr;
+                  Integer mask = Integer.valueOf(basic.getOpcodeMask());
+                  Integer match = Integer.valueOf(basic.getOpcodeMatch());
+                  HashMap matchMap = (HashMap)maskMap.get(mask);
+                  if(matchMap == null) {
+                      matchMap = new HashMap();
+                      maskMap.put(mask, matchMap);
+                      matchMaps.add(new MatchMap(mask.intValue(), matchMap));
+                  }
+
+                  matchMap.put(match, basic);
+              }
+          }
+
+          Collections.sort(matchMaps);
+          this.opcodeMatchMaps = matchMaps;
+      }
+
 
     public void registerInstruction(String template, BasicInstructionFormat format, String encoding, SimulationCode code) {
         BasicInstruction inst = new BasicInstruction(template, format, encoding, code);
@@ -3285,7 +3314,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	 // ProgramStatement.java, buildBasicStatementFromBasicInstruction() method near
    	 // the bottom (currently line 194, heavily commented).
    	 
-       private void processBranch(int displacement) {
+       public static void processBranch(int displacement) {
            displacement = (displacement << 16 >> 16);
          if (Globals.getSettings().getDelayedBranchingEnabled()) {
             // Register the branch target address (absolute byte address).
@@ -3309,7 +3338,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	 * Handles delayed branching if that setting is enabled.
    	 */
    	 
-       private void processJump(int targetAddress) {
+       public static void processJump(int targetAddress) {
          if (Globals.getSettings().getDelayedBranchingEnabled()) {
             DelayedBranch.register(targetAddress);
          } 

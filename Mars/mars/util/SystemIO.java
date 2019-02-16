@@ -186,6 +186,24 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          }
       
       }
+
+    /**
+     * MODIFIED BY DEPCTG, 23,8,2017
+     * Implements syscall having 4 in $v0, to print a string.
+     * @OUTPUT Message to output pane
+     */
+       public static void logString(String string)
+      {
+         if (Globals.getGui() == null)
+         {
+            System.out.print(string);
+         } 
+         else
+         {
+            Globals.getGui().getMessagesPane().postLogMessage(string);
+         }
+      
+      }
    	
    	
     /**

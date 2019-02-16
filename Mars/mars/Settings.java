@@ -154,7 +154,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
    	 *  If you wish to change, do so before instantiating the Settings object.
    	 *  Must match key by list position.
    	 */
-      private static String[] defaultStringSettingsValues = { "", "0 1 2 3 4", "0", "", "500", "8", "2" }; 
+      private static String[] defaultStringSettingsValues = { "", "0 1 2 3 4", "0", "3", "500", "8", "2" }; 
    
    
       // FONT SETTINGS.  Each array position has associated name.

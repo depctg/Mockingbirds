@@ -9,6 +9,8 @@
    import java.awt.*;
    import javax.swing.*;
    import javax.swing.JOptionPane;   // KENV 9/8/2004
+   import org.luaj.vm2.LuaError;
+   import org.luaj.vm2.LuaValue;
 
 /*
 Copyright (c) 2003-2012,  Pete Sanderson and Kenneth Vollmar
@@ -290,6 +292,26 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                inProgramArgumentList = true;
                continue;
             }
+
+            // MODIFIED BY DEPCTG
+            // Add load lua file support
+            if (args[i].toLowerCase().equals("ll")) {
+               if (args.length <= (i+1)) {
+                  out.println("Load Lua (ll) command line argument requires file name.");
+                  argsOK = false;
+               } else {
+                 String filepath = args[++i];
+                 try {
+                    LuaValue expr = Globals.getLuaBinding().getGlobals().loadfile(filepath);
+                    expr.call();
+                    Globals.instructionSet.generateMatchMaps();
+                 } catch (LuaError err) {
+                      out.println("Load Lua (ll) command line argument load error.");
+                      argsOK = false;
+                 }
+               }
+               continue;
+            }
          	// messages-to-standard-error switch already processed, so ignore.
             if (args[i].toLowerCase().equals(displayMessagesToErrSwitch)) {
                continue;
@@ -298,6 +320,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             if (args[i].toLowerCase().equals(noCopyrightSwitch)) {
                continue;
             }				
+
             if (args[i].toLowerCase().equals("dump")) {
                if (args.length <= (i+3)) {
                   out.println("Dump command line argument requires a segment, format and file name.");
@@ -831,6 +854,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          out.println("            option must be placed AFTER ALL FILE NAMES, because everything");
          out.println("            that follows it is interpreted as a program argument to be");
          out.println("            made available to the MIPS program at runtime.");
+         out.println("     ll <filename>  -- Load lua instruction.");
          out.println("If more than one filename is listed, the first is assumed to be the main");
          out.println("unless the global statement label 'main' is defined in one of the files.");
          out.println("Exception handler not automatically assembled.  Add it to the file list.");

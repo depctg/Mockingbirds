@@ -22,7 +22,7 @@ distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject 
 to the following conditions:
 
-The above copyright notice and this permission notice shall be 
+The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
@@ -123,7 +123,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
          // Add Output, except hi, lo
          if (num < 32) {
              String numStr = num < 10 ? " " + num : "" + num;
-             SystemIO.printString("$" + numStr + " <= " + Binary.intToHexString(val).substring(2) + "\n");
+             SystemIO.logString("@" + Binary.intToHexString(programCounter.getValue() - 4).substring(6) + ":" +
+                     "$" + numStr + " <= " + Binary.intToHexString(val).substring(2) + "\n");
          }
          return old;
       }
@@ -318,7 +319,16 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
        public static void incrementPC(){
          programCounter.setValue(programCounter.getValue() + Instruction.INSTRUCTION_LENGTH);
       }
-   
+
+        /**
+         *  Modified by DEPCT
+         *  Method to add Observer to PC, inorder to maintain Clks for devices
+         **/
+
+        public static void addPCObserver(Observer observer){
+            programCounter.addObserver(observer);
+        }
+
       /**
    	 *  Each individual register is a separate object and Observable.  This handy method
    	 *  will add the given Observer to each one.  Currently does not apply to Program
